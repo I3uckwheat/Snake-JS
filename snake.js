@@ -3,6 +3,13 @@ const playArea = playAreaFactory(snakeGridSize);
 
 render(playArea);
 
+var snake = {
+    position: [20, 20],
+    updatePlayArea: function(){
+
+    }
+  }
+
 /************************************/
 
 function playAreaFactory(size){
@@ -13,9 +20,7 @@ function playAreaFactory(size){
       board[`column${i}`][j] = false;
     }
   }
-
   board.column20[20] = true;
-
   board.gridSize = size;
   return board;
 }
