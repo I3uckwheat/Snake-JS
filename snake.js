@@ -10,16 +10,26 @@ function playAreaFactory(size){
   for(let i = 0; i < size; i++){
     board[`column${i}`] = []
     for(let j = 0; j < size; j++){
-      board[`column${i}`][j] = " ";
+      board[`column${i}`][j] = false;
     }
   }
+
+  board.column20[20] = true;
 
   board.gridSize = size;
   return board;
 }
 
 function render(playArea){
-  document.body.appendChild(generatePlayAreaDomStructure(playArea));
+  if(!document.querySelector(".playAreaContainer")){
+   document.body.appendChild(generatePlayAreaDomStructure(playArea));
+  } else {
+    for(let i = 0; i < playArea.gridSize; i++){
+      playArea[`column${i}`].forEach(function(square, index) {
+        if(square){markSquareOccupied(i, index)}
+      });
+    }
+  }
 }
 
 function generatePlayAreaDomStructure(playArea){
@@ -33,10 +43,14 @@ function generatePlayAreaDomStructure(playArea){
     playArea[`column${i}`].forEach(function(space, index) {
       let element = document.createElement('div');
       element.classList.add(`row${index}`, "row")
-      element.textContent = space;
       columnContainer.appendChild(element);
     });
     playAreaContainer.appendChild(columnContainer);
   }
   return playAreaContainer;
+}
+
+function markSquareOccupied(column, row){
+  var occupied = document.querySelector(`.column${column} .row${row}`);
+  occupied.classList.add("occupied");
 }

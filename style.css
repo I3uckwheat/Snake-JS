@@ -5,7 +5,7 @@ body {
 .playAreaContainer {
   width: 1px;
   display: grid;
-  grid-template-columns: repeat(40, 1fr)
+  grid-template-columns: repeat(40, 1fr);
 }
 
 .row {
@@ -14,4 +14,8 @@ body {
   border-style: solid;
   border-width: 1px;
   background-color: red;
+}
+
+.occupied {
+  background-color: black;
 }
