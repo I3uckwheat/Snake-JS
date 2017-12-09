@@ -1,3 +1,17 @@
 body {
   background-color: grey;
 }
+
+.playAreaContainer {
+  height: 50px;
+  width: 50px;
+  display: grid;
+  grid-template-columns: repeat(40, 1fr)
+}
+
+.column {
+  height: 10px;
+  width: 10px;
+  border-style: solid;
+  background-color: red;
+}

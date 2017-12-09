@@ -1,7 +1,9 @@
 const snakeGridSize = 40;
-
 const playArea = playAreaFactory(snakeGridSize);
+
 render(playArea);
+
+/************************************/
 
 function playAreaFactory(size){
   var board = {}
@@ -16,8 +18,11 @@ function playAreaFactory(size){
   return board;
 }
 
+function render(playArea){
+  document.body.appendChild(generatePlayAreaDomStructure(playArea));
+}
 
-function generatePlayAreaContainer(playArea){
+function generatePlayAreaDomStructure(playArea){
   var playAreaContainer = document.createElement('div');
   playAreaContainer.classList.add("playAreaContainer");
 
@@ -34,8 +39,4 @@ function generatePlayAreaContainer(playArea){
     playAreaContainer.appendChild(rowContainer);
   }
   return playAreaContainer;
-}
-
-function render(playArea){
-  document.body.appendChild(generatePlayAreaContainer(playArea));
 }
