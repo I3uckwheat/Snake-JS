@@ -8,9 +8,9 @@ render(playArea);
 function playAreaFactory(size){
   var board = {}
   for(let i = 0; i < size; i++){
-    board[`row${i}`] = []
+    board[`column${i}`] = []
     for(let j = 0; j < size; j++){
-      board[`row${i}`][j] = " ";
+      board[`column${i}`][j] = " ";
     }
   }
 
@@ -27,16 +27,16 @@ function generatePlayAreaDomStructure(playArea){
   playAreaContainer.classList.add("playAreaContainer");
 
   for(let i = 0; i < playArea.gridSize; i++) {
-    let rowContainer = document.createElement('div');
-    rowContainer.classList.add(`row${i}`, "row")
+    let columnContainer = document.createElement('div');
+    columnContainer.classList.add(`column${i}`, "column")
 
-    playArea[`row${i}`].forEach(function(space, index) {
+    playArea[`column${i}`].forEach(function(space, index) {
       let element = document.createElement('div');
-      element.classList.add(`column${index}`, "column")
+      element.classList.add(`row${index}`, "row")
       element.textContent = space;
-      rowContainer.appendChild(element);
+      columnContainer.appendChild(element);
     });
-    playAreaContainer.appendChild(rowContainer);
+    playAreaContainer.appendChild(columnContainer);
   }
   return playAreaContainer;
 }
