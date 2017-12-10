@@ -6,24 +6,23 @@ playArea.render();
 const snake = snakeFactory([20,20]);
 
 playArea.render();
-// var setInv = setInterval(tick, 1000);
+var setInv = setInterval(tick, 1000);
 
 /************************************/
 
 
 function tick() {
   snake.move();
-  snake.updatePlayArea();
   playArea.render();
 }
 
 function snakeFactory(startPosition){             // [0,0] is top left, [39, 39] is bottom right, [0, 39] is bottom left, [39,0] is top right.  [x,y] starting at top left
-  const body = [startPosition];
+  const body = [startPosition]; // [[20, 20]]
   const moveList = {'r' : [1, 0], 'l' : [-1,0], 'u' : [0,-1], 'd' : [0,1]};
   let length = 1;
-  let snakeDirection = 'r';
+  let snakeDirection = 'l';
 
-  updatePlayArea();
+  // updatePlayArea();
 
   return {
     length,
@@ -35,33 +34,31 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
 
   function move(){
     const [x, y] = moveList[snakeDirection];
-    const head = body[body.length - 1];
+    const head = body[body.length - 1].slice();
+    let tail;
 
     head[0] += x;
     head[1] += y;
-
     body.push(head);
-    tail = body.shift();
 
-    updatePlayArea(head, tail);
+    if(body.length > length) {
+      tail = body.shift()
+      playArea.unSelectSpaces(tail);
+    }
+    playArea.selectSpaces(body);
   }
 
   function changeDirection(direction){
     snakeDirection = direction;
   }
-
-  function updatePlayArea(body, removedTail){
-    playArea.toggleSpaces(body, removedTail);
-  }
-
-
 }
 
 function playAreaFactory(size){
   const board = boardFactory(size);
 
   return {
-    toggleSpaces,
+    selectSpaces,
+    unSelectSpaces,
     boardSize: size,
     render: render
     }
@@ -86,9 +83,15 @@ function playAreaFactory(size){
     }
   }
 
-  function toggleSpaces(on, off){
-    console.log(on);
-    console.log(off);
+  function selectSpaces(body){
+    body.forEach(([column, row]) => {
+      board[`column${column}`][row] = true;
+    })
+  }
+
+  function unSelectSpaces(tail){
+    [column, row] = tail;
+    board[`column${column}`][row] = false;
   }
 }
 
