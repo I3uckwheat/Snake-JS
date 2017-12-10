@@ -1,50 +1,94 @@
 const snakeGridSize = 40;
 const playArea = playAreaFactory(snakeGridSize);
 
-const snake = {
-  body: [[20,20]],
-  direction: 'r',
-  length: 1,
-  updatePlayArea: function(){
-    playArea.activeSpaces(snake.body);
-  }
-}
-
-playArea.render();
-snake.updatePlayArea()
 playArea.render();
 
+const snake = snakeFactory([20,20]);
+
+playArea.render();
+// var setInv = setInterval(tick, 1000);
 
 /************************************/
 
 
+function tick() {
+  snake.move();
+  snake.updatePlayArea();
+  playArea.render();
+}
+
+function snakeFactory(startPosition){             // [0,0] is top left, [39, 39] is bottom right, [0, 39] is bottom left, [39,0] is top right.  [x,y] starting at top left
+  const body = [startPosition];
+  const moveList = {'r' : [1, 0], 'l' : [-1,0], 'u' : [0,-1], 'd' : [0,1]};
+  let length = 1;
+  let snakeDirection = 'r';
+
+  updatePlayArea();
+
+  return {
+    length,
+    move,
+    changeDirection,
+    body
+  }
+
+
+  function move(){
+    const [x, y] = moveList[snakeDirection];
+    const head = body[body.length - 1];
+
+    head[0] += x;
+    head[1] += y;
+
+    body.push(head);
+    tail = body.shift();
+
+    updatePlayArea(head, tail);
+  }
+
+  function changeDirection(direction){
+    snakeDirection = direciton;
+  }
+
+  function updatePlayArea(body, removedTail){
+    playArea.toggleSpaces(body, removedTail);
+  }
+
+
+}
 
 function playAreaFactory(size){
   const board = boardFactory(size);
 
   return {
+    toggleSpaces,
     boardSize: size,
-    render: render,
-    activeSpaces: setSpacesActive
+    render: render
     }
 
   function render(){
     if(!document.querySelector(".playAreaContainer")){
       document.body.appendChild(generatePlayAreaDomStructure(board));
     } else {
-      for(let i = 0; i < size; i++){
-        board[`column${i}`].forEach((square, index) => {if(square){markSquareOccupied(i, index)}});
-      }
+      drawSpaces();
     }
   }
 
-  function markSquareOccupied(column, row) {
-    const occupied = document.querySelector(`.column${column} .row${row}`);
-    occupied.classList.add("occupied");
+  function drawSpaces(){
+    for(column in board){
+      board[column].forEach((space, index) => {
+        if(space){
+          document.querySelector(`.${column} .row${index}`).classList.add("occupied")
+        } else {
+          document.querySelector(`.${column} .row${index}`).classList.remove("occupied")
+        };
+      })
+    }
   }
 
-  function setSpacesActive(spaces){
-    spaces.forEach(([column, row]) => board[`column${column}`][row] = true)
+  function toggleSpaces(on, off){
+    console.log(on);
+    console.log(off);
   }
 }
 
