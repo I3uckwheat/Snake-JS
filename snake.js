@@ -2,10 +2,11 @@ const snakeGridSize = 40;
 const playArea = playAreaFactory(snakeGridSize);
 
 const snake = {
-  position: [[20,20], [21, 20]],
+  body: [[20,20]],
+  direction: 'r',
   length: 1,
   updatePlayArea: function(){
-    playArea.activeSpaces(snake.position);
+    playArea.activeSpaces(snake.body);
   }
 }
 
@@ -15,6 +16,7 @@ playArea.render();
 
 
 /************************************/
+
 
 
 function playAreaFactory(size){
