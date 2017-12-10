@@ -19,7 +19,7 @@ function tick() {
 function snakeFactory(startPosition){             // [0,0] is top left, [39, 39] is bottom right, [0, 39] is bottom left, [39,0] is top right.  [x,y] starting at top left
   const body = [startPosition]; // [[20, 20]]
   const moveList = {'r' : [1, 0], 'l' : [-1,0], 'u' : [0,-1], 'd' : [0,1]};
-  let length = 1;
+  let length = 3;
   let snakeDirection = 'l';
 
   // updatePlayArea();
