@@ -25,7 +25,7 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
   // updatePlayArea();
 
   return {
-    length,
+    eat,
     move,
     changeDirection,
     body
@@ -50,6 +50,10 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
 
   function changeDirection(direction){
     snakeDirection = direction;
+  }
+
+  function eat(){
+    length++;
   }
 }
 
