@@ -1,12 +1,19 @@
 const snakeGridSize = 40;
+const snakeSpeed = 800;
+const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
 const playArea = playAreaFactory(snakeGridSize);
 
-playArea.render();
-
 const snake = snakeFactory([20,20]);
-
 playArea.render();
-var setInv = setInterval(tick, 1000);
+
+var setInv = setInterval(tick, snakeSpeed);
+document.addEventListener("keydown", (event) =>{
+  const key = event.key;
+  if(key in keyBinding){
+    snake.changeDirection(keyBinding[key]);
+  }
+})
+
 
 /************************************/
 
