@@ -35,7 +35,6 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
     eat,
     move,
     changeDirection,
-    body
   }
 
 
@@ -70,7 +69,6 @@ function playAreaFactory(size){
   return {
     selectSpaces,
     unSelectSpaces,
-    boardSize: size,
     render: render
     }
 
