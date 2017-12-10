@@ -4,11 +4,14 @@ const playArea = playAreaFactory(snakeGridSize);
 render(playArea);
 
 var snake = {
-    position: [20, 20],
-    updatePlayArea: function(){
-
-    }
+  position: [[20, 20]],
+  length: 1,
+  updatePlayArea: function(){
+    snake.position.forEach(function(coords){
+      playArea[`column${coords[0]}`][coords[1]] = true;
+    })
   }
+}
 
 /************************************/
 
