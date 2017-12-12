@@ -1,8 +1,9 @@
 const snakeGridSize = 40;
-const snakeSpeed = 1;
+const snakeSpeed = 1000;
 const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
 const playArea = playAreaFactory(snakeGridSize);
 
+const food = foodFactory();
 const snake = snakeFactory([20,20]);
 playArea.render();
 
@@ -67,7 +68,8 @@ function playAreaFactory(size){
   const board = boardFactory(size);
 
   return {
-    selectSpaces,
+    selectSnakeSpaces,
+    selectFoodSpaces,
     unSelectSpace,
     render: render
     }
@@ -83,7 +85,7 @@ function playAreaFactory(size){
   function drawSpaces(){
     for(column in board){
       board[column].forEach((space, index) => {
-        const currentSpaceDOMElement = document.querySelector(`.${column} .row${index}`)
+        let currentSpaceDOMElement = document.querySelector(`.${column} .row${index}`)
         if(space === "snake"){
           currentSpaceDOMElement.classList.add("occupiedSnake");
         } else if (space === "food") {
@@ -139,4 +141,27 @@ function generatePlayAreaDomStructure(board) {
     playAreaContainer.appendChild(columnContainer);
   }
   return playAreaContainer;
+}
+
+function foodFactory(){
+  let foodLocation = getRandomOrderedPair();
+
+  createNewFood();
+
+  function getRandomOrderedPair(){
+    min = Math.ceil(0);
+    max = Math.floor(39);
+    return [(Math.floor(Math.random() * (max - min)) + min), (Math.floor(Math.random() * (max - min)))];
+  }
+
+  function createNewFood(){
+    const oldFoodLocation = foodLocation;
+    foodLocation = getRandomOrderedPair();
+    updatePlayArea(oldFoodLocation);
+  }
+
+  function updatePlayArea(oldFoodLocation){
+    playArea.selectFoodSpaces(foodLocation);
+    playArea.unSelectSpace(oldFoodLocation);
+  }
 }
