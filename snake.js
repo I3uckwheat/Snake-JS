@@ -131,7 +131,7 @@ function generatePlayAreaDomStructure(board) {
     const columnContainer = document.createElement('div');
     columnContainer.classList.add(column, "column");
 
-    board[column].forEach((_, index)=> {
+      for(let index = 0; index < board[column].length; index ++){
       const rowElement = document.createElement('div');
       rowElement.classList.add(`row${index}`, "row");
 
