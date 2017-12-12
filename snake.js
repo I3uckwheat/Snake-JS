@@ -136,7 +136,7 @@ function generatePlayAreaDomStructure(board) {
       rowElement.classList.add(`row${index}`, "row");
 
       columnContainer.appendChild(rowElement);
-    });
+    };
 
     playAreaContainer.appendChild(columnContainer);
   }
