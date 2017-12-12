@@ -1,5 +1,5 @@
 const snakeGridSize = 40;
-const snakeSpeed = 800;
+const snakeSpeed = 1;
 const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
 const playArea = playAreaFactory(snakeGridSize);
 
@@ -49,9 +49,9 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
 
     if(body.length > length) {
       tail = body.shift()
-      playArea.unSelectSpaces(tail);
+      playArea.unSelectSpace(tail);
     }
-    playArea.selectSpaces(body);
+    playArea.selectSnakeSpaces(body);
   }
 
   function changeDirection(direction){
@@ -68,7 +68,7 @@ function playAreaFactory(size){
 
   return {
     selectSpaces,
-    unSelectSpaces,
+    unSelectSpace,
     render: render
     }
 
@@ -83,24 +83,30 @@ function playAreaFactory(size){
   function drawSpaces(){
     for(column in board){
       board[column].forEach((space, index) => {
-        if(space){
-          document.querySelector(`.${column} .row${index}`).classList.add("occupied")
+        const currentSpaceDOMElement = document.querySelector(`.${column} .row${index}`)
+        if(space === "snake"){
+          currentSpaceDOMElement.classList.add("occupiedSnake");
+        } else if (space === "food") {
+          currentSpaceDOMElement.classList.add("occupiedFood");
         } else {
-          document.querySelector(`.${column} .row${index}`).classList.remove("occupied")
-        };
+          currentSpaceDOMElement.classList.remove("occupiedSnake", "occupiedFood");
+        }
       })
     }
   }
 
-  function selectSpaces(body){
+  function selectSnakeSpaces(body){
     body.forEach(([column, row]) => {
-      board[`column${column}`][row] = true;
+      board[`column${column}`][row] = "snake";
     })
   }
 
-  function unSelectSpaces(tail){
-    [column, row] = tail;
-    board[`column${column}`][row] = false;
+  function selectFoodSpaces([x, y]){
+    board[`column${x}`][y] = "food"
+  }
+
+  function unSelectSpace([column, row]){
+    board[`column${column}`][row] = null;
   }
 }
 
