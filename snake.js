@@ -1,5 +1,5 @@
 const snakeGridSize = 40;
-const snakeSpeed = 1000;
+const snakeSpeed = 10;
 const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
 const playArea = playAreaFactory(snakeGridSize);
 
