@@ -96,10 +96,10 @@ function playAreaFactory(size){
     }
 
   function checkCollision(body){
-    const head = body[0];
+    const head = body[body.length - 1];
     if(helpers.isEquivalent(head, food.getFoodLocation())){ snake.foundFood() };
-    if(helpers.isArrayIn2dArray(head, body.slice(1, body.length))){fail()};
-    if(head[0] > snakeGridSize || head[1] > snakeGridSize){fail()}
+    if(helpers.isArrayIn2dArray(head, body.slice(1, body.length - 1))){fail()};
+    if(head[0] >= snakeGridSize - 1 || head[1] >= snakeGridSize - 1){fail()}
     selectSnakeSpaces(body);
   }
 
@@ -116,6 +116,7 @@ function playAreaFactory(size){
       board[column].forEach((space, index) => {
         let currentSpaceDOMElement = document.querySelector(`.${column} .row${index}`)
         if(space === "snake"){
+          currentSpaceDOMElement.classList.remove("occupiedFood");
           currentSpaceDOMElement.classList.add("occupiedSnake");
         } else if (space === "food") {
           currentSpaceDOMElement.classList.add("occupiedFood");
