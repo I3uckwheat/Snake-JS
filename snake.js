@@ -208,7 +208,6 @@ function foodFactory(){
     min = Math.ceil(0);
     max = Math.floor(39);
     return [(Math.floor(Math.random() * (max - min)) + min), (Math.floor(Math.random() * (max - min)))];
-    // return[23, 21];
   }
 
   function createNewFood(){
