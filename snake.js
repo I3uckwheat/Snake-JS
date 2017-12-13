@@ -1,5 +1,6 @@
 const snakeGridSize = 40;
 const snakeSpeed = 100;
+const snakeLength = 6;
 const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
 const playArea = playAreaFactory(snakeGridSize);
 
@@ -8,6 +9,7 @@ const snake = snakeFactory([20,20]);
 playArea.render();
 
 var setInv = setInterval(tick, snakeSpeed);
+
 document.addEventListener("keydown", (event) =>{
   const key = event.key;
   if(key in keyBinding){
@@ -18,24 +20,55 @@ document.addEventListener("keydown", (event) =>{
 
 /************************************/
 
+const helpers = {
+  isEquivalent: function isEquivalent(a, b) {
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    if (aProps.length != bProps.length) {
+        return false;
+    }
+    for (var i = 0; i < aProps.length; i++) {
+        var propName = aProps[i];
+
+        if (a[propName] !== b[propName]) {
+            return false;
+        }
+    }
+    return true;
+  },
+
+  isArrayIn2dArray: function isArrayIn2dArray(key, array2d){
+    return array2d.some((array) => {return (array[0] == key[0] && array[1] == key[1])});
+  }
+}
 
 function tick() {
   snake.move();
   playArea.render();
 }
 
+function stopGame(){
+  clearInterval(setInv);
+}
+
+function fail(){
+  stopGame();
+  console.log("YOU DIED");
+}
+
+
 function snakeFactory(startPosition){             // [0,0] is top left, [39, 39] is bottom right, [0, 39] is bottom left, [39,0] is top right.  [x,y] starting at top left
   const body = [startPosition]; // [[20, 20]]
   const moveList = {'r' : [1, 0], 'l' : [-1,0], 'u' : [0,-1], 'd' : [0,1]};
-  let length = 3;
+  let length = snakeLength;
   let snakeDirection = 'l';
 
-  // updatePlayArea();
-
   return {
-    eat,
     move,
+    foundFood,
     changeDirection,
+    headLocaton: getHeadLocation
   }
 
 
@@ -52,15 +85,24 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
       tail = body.shift()
       playArea.unSelectSpace(tail);
     }
-    playArea.selectSnakeSpaces(body);
+    playArea.checkCollision(body);
   }
 
   function changeDirection(direction){
     snakeDirection = direction;
   }
 
+  function foundFood(){
+    food.getsEaten();
+    eat();
+  }
+
   function eat(){
     length++;
+  }
+
+  function getHeadLocation(){
+    return body[0];
   }
 }
 
@@ -71,8 +113,17 @@ function playAreaFactory(size){
     selectSnakeSpaces,
     selectFoodSpaces,
     unSelectSpace,
-    render: render
+    checkCollision,
+    render
     }
+
+  function checkCollision(body){
+    const head = body[0];
+    if(helpers.isEquivalent(head, food.getFoodLocation())){ snake.foundFood() };
+    if(helpers.isArrayIn2dArray(head, body.slice(1, body.length))){fail()};
+    if(head[0] > snakeGridSize || head[1] > snakeGridSize){fail()}
+    selectSnakeSpaces(body);
+  }
 
   function render(){
     if(!document.querySelector(".playAreaContainer")){
@@ -148,16 +199,26 @@ function foodFactory(){
 
   createNewFood();
 
+  return {
+    getFoodLocation,
+    getsEaten: createNewFood
+  }
+
   function getRandomOrderedPair(){
     min = Math.ceil(0);
     max = Math.floor(39);
     return [(Math.floor(Math.random() * (max - min)) + min), (Math.floor(Math.random() * (max - min)))];
+    // return[23, 21];
   }
 
   function createNewFood(){
     const oldFoodLocation = foodLocation;
     foodLocation = getRandomOrderedPair();
     updatePlayArea(oldFoodLocation);
+  }
+
+  function getFoodLocation(){
+    return foodLocation;
   }
 
   function updatePlayArea(oldFoodLocation){
