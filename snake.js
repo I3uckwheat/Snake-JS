@@ -20,28 +20,6 @@ document.addEventListener("keydown", (event) =>{
 
 /************************************/
 
-const helpers = {
-  isEquivalent: function isEquivalent(a, b) {
-    var aProps = Object.getOwnPropertyNames(a);
-    var bProps = Object.getOwnPropertyNames(b);
-
-    if (aProps.length != bProps.length) {
-        return false;
-    }
-    for (var i = 0; i < aProps.length; i++) {
-        var propName = aProps[i];
-
-        if (a[propName] !== b[propName]) {
-            return false;
-        }
-    }
-    return true;
-  },
-
-  isArrayIn2dArray: function isArrayIn2dArray(key, array2d){
-    return array2d.some((array) => {return (array[0] == key[0] && array[1] == key[1])});
-  }
-}
 
 function tick() {
   snake.move();
@@ -225,3 +203,31 @@ function foodFactory(){
     playArea.unSelectSpace(oldFoodLocation);
   }
 }
+
+helpers = (function helpers(){
+  return {
+    isEquivalent,
+    isArrayIn2dArray
+  }
+
+  function isEquivalent(a, b) {
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    if (aProps.length != bProps.length) {
+        return false;
+    }
+    for (var i = 0; i < aProps.length; i++) {
+        var propName = aProps[i];
+
+        if (a[propName] !== b[propName]) {
+            return false;
+        }
+    }
+    return true;
+  }
+
+  function isArrayIn2dArray(key, array2d){
+    return array2d.some((array) => {return (array[0] == key[0] && array[1] == key[1])});
+  }
+})();
