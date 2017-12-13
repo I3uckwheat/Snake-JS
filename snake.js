@@ -99,8 +99,15 @@ function playAreaFactory(size){
     const head = body[body.length - 1];
     if(helpers.isEquivalent(head, food.getFoodLocation())){ snake.foundFood() };
     if(helpers.isArrayIn2dArray(head, body.slice(1, body.length - 1))){fail()};
-    if(head[0] >= snakeGridSize - 1 || head[1] >= snakeGridSize - 1){fail()}
+    if(isOutsideGrid(head)){fail()};
+    console.log(isOutsideGrid(head));
     selectSnakeSpaces(body);
+  }
+
+  function isOutsideGrid(head){
+    return head.some((number) => {
+      return number >= snakeGridSize || number < 0
+    });
   }
 
   function render(){
