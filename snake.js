@@ -3,13 +3,13 @@ const snakeGridSize = 40;
 const snakeSpeed = 100;
 const snakeLength = 6;
 const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
-const playArea = playAreaFactory(snakeGridSize);
 
-const snake = snakeFactory([20,20]);
-const food = foodFactory();
+let playArea = playAreaFactory(snakeGridSize);
+let snake = snakeFactory([20,20]);
+let food = foodFactory();
 playArea.render();
 
-var setInv = setInterval(tick, snakeSpeed);
+let setInv = setInterval(tick, snakeSpeed);
 
 document.addEventListener("keydown", (event) =>{
   const key = event.key;
@@ -17,6 +17,9 @@ document.addEventListener("keydown", (event) =>{
     snake.changeDirection(keyBinding[key]);
   }
 })
+
+const restartButton = document.querySelector("#restartButton");
+restartButton.addEventListener("click", (e) => restart());
 
 
 /************************************/
@@ -249,3 +252,13 @@ function helpersModule(){
     return array2d.some((array) => {return (array[0] == key[0] && array[1] == key[1])});
   }
 };
+
+function restart(){
+  stopGame();
+  playArea = playAreaFactory(snakeGridSize);
+  snake = snakeFactory([20,20]);
+  food = foodFactory();
+  playArea.render();
+
+  setInv = setInterval(tick, snakeSpeed);
+}
