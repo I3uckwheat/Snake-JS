@@ -1,11 +1,12 @@
+const helpers = helpersModule();
 const snakeGridSize = 40;
 const snakeSpeed = 100;
 const snakeLength = 6;
 const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
 const playArea = playAreaFactory(snakeGridSize);
 
-const food = foodFactory();
 const snake = snakeFactory([20,20]);
+const food = foodFactory();
 playArea.render();
 
 var setInv = setInterval(tick, snakeSpeed);
@@ -19,7 +20,6 @@ document.addEventListener("keydown", (event) =>{
 
 
 /************************************/
-
 
 function tick() {
   snake.move();
@@ -46,7 +46,8 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
     move,
     foundFood,
     changeDirection,
-    headLocaton: getHeadLocation
+    getBody,
+    headLocaton: getHeadLocation,
   }
 
 
@@ -82,6 +83,10 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
   function getHeadLocation(){
     return body[0];
   }
+
+  function getBody(){
+    return body;
+  }
 }
 
 function playAreaFactory(size){
@@ -99,8 +104,9 @@ function playAreaFactory(size){
     const head = body[body.length - 1];
     if(helpers.isEquivalent(head, food.getFoodLocation())){ snake.foundFood() };
     if(helpers.isArrayIn2dArray(head, body.slice(1, body.length - 1))){fail()};
-    if(isOutsideGrid(head)){fail()};
-    console.log(isOutsideGrid(head));
+    if(isOutsideGrid(head)){
+      return fail();
+    };
     selectSnakeSpaces(body);
   }
 
@@ -199,7 +205,11 @@ function foodFactory(){
   function createNewFood(){
     const oldFoodLocation = foodLocation;
     foodLocation = getRandomOrderedPair();
-    updatePlayArea(oldFoodLocation);
+    if(!helpers.isArrayIn2dArray(foodLocation, snake.getBody())){
+      updatePlayArea(oldFoodLocation);
+    } else {
+      createnewFood();
+    }
   }
 
   function getFoodLocation(){
@@ -212,7 +222,7 @@ function foodFactory(){
   }
 }
 
-helpers = (function helpers(){
+function helpersModule(){
   return {
     isEquivalent,
     isArrayIn2dArray
@@ -238,4 +248,4 @@ helpers = (function helpers(){
   function isArrayIn2dArray(key, array2d){
     return array2d.some((array) => {return (array[0] == key[0] && array[1] == key[1])});
   }
-})();
+};
