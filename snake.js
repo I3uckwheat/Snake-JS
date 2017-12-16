@@ -97,6 +97,8 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
 function playAreaFactory(size){
   const board = boardFactory(size);
 
+  createBoard();
+
   return {
     selectSnakeSpaces,
     selectFoodSpaces,
@@ -122,14 +124,6 @@ function playAreaFactory(size){
   }
 
   function render(){
-    if(!document.querySelector(".playAreaContainer")){
-      document.body.appendChild(generatePlayAreaDomStructure(board));
-    } else {
-      drawSpaces();
-    }
-  }
-
-  function drawSpaces(){
     for(column in board){
       board[column].forEach((space, index) => {
         let currentSpaceDOMElement = document.querySelector(`.${column} .row${index}`)
@@ -143,6 +137,11 @@ function playAreaFactory(size){
         }
       })
     }
+  }
+
+  function createBoard(){
+    let container = document.querySelector(".playAreaContainer");
+    container.appendChild(generatePlayAreaDomStructure(board));
   }
 
   function selectSnakeSpaces(body){
