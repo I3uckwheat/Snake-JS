@@ -140,7 +140,9 @@ function playAreaFactory(size){
   function createBoard(){
     let container = document.querySelector(".playAreaContainer");
     container.innerHTML = "";
-    container.appendChild(generatePlayAreaDomStructure(board));
+    for(let i = 0; i < snakeGridSize; i++){
+      container.appendChild(generateColumn(i));
+    }
   }
 
   function selectSnakeSpaces(body){
@@ -169,25 +171,17 @@ function boardFactory(size){
   return board;
 }
 
-function generatePlayAreaDomStructure(board) {
-  const playAreaContainer = document.createElement('div');
-  playAreaContainer.classList.add('playAreaContainer');
+function generateColumn(columnIndex) {
+  const column = document.createElement('div');
+  column.classList.add(`column${columnIndex}`, "column");
 
-  for(const column in board){
-    const columnContainer = document.createElement('div');
-    columnContainer.classList.add(column, "column");
-
-      for(let index = 0; index < board[column].length; index ++){
-      const rowElement = document.createElement('div');
-      rowElement.classList.add(`row${index}`, "row");
-
-      columnContainer.appendChild(rowElement);
-    };
-
-    playAreaContainer.appendChild(columnContainer);
+  for(let i = 0; i < snakeGridSize; i++){
+    let row = document.createElement('div');
+    row.classList.add(`row${i}`, "row");
+    column.appendChild(row);
   }
-  return playAreaContainer;
-}
+  return column;
+};
 
 function foodFactory(){
   let foodLocation = getRandomOrderedPair();
