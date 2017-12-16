@@ -211,7 +211,7 @@ function foodFactory(){
     if(!helpers.isArrayIn2dArray(foodLocation, snake.getBody())){
       updatePlayArea(oldFoodLocation);
     } else {
-      createnewFood();
+      createNewFood();
     }
   }
 
