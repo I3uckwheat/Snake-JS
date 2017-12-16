@@ -42,16 +42,18 @@ function fail(){
 function snakeFactory(startPosition){             // [0,0] is top left, [39, 39] is bottom right, [0, 39] is bottom left, [39,0] is top right.  [x,y] starting at top left
   const body = [startPosition]; // [[20, 20]]
   const moveList = {'r' : [1, 0], 'l' : [-1,0], 'u' : [0,-1], 'd' : [0,1]};
+  const oppositeMoves = {'u' : 'd', 'd' : 'u', 'l' : 'r', 'r' : 'l'};
+
   let length = snakeLength;
   let snakeDirection = 'l';
 
   return {
     move,
+    getBody,
     foundFood,
     changeDirection,
-    getBody,
     headLocaton: getHeadLocation,
-  }
+    }
 
 
   function move(){
@@ -71,7 +73,7 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
   }
 
   function changeDirection(direction){
-    snakeDirection = direction;
+    if(direction !== oppositeMoves[snakeDirection]) snakeDirection = direction;
   }
 
   function foundFood(){

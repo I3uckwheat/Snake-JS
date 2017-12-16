@@ -6,6 +6,7 @@ body {
   width: 1px;
   display: grid;
   grid-template-columns: repeat(40, 1fr);
+  margin: 0, auto;
 }
 
 .row {
