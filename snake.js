@@ -21,8 +21,7 @@ document.addEventListener("keydown", (event) =>{
 const restartButton = document.querySelector("#restartButton");
 restartButton.addEventListener("click", (e) => restart());
 
-
-/************************************/
+/***************************************************************************************/
 
 function tick() {
   snake.move();
@@ -37,7 +36,6 @@ function fail(){
   stopGame();
   console.log("YOU DIED");
 }
-
 
 function snakeFactory(startPosition){             // [0,0] is top left, [39, 39] is bottom right, [0, 39] is bottom left, [39,0] is top right.  [x,y] starting at top left
   const body = [startPosition]; // [[20, 20]]
@@ -141,6 +139,7 @@ function playAreaFactory(size){
 
   function createBoard(){
     let container = document.querySelector(".playAreaContainer");
+    container.innerHTML = "";
     container.appendChild(generatePlayAreaDomStructure(board));
   }
 
@@ -263,3 +262,10 @@ function restart(){
 
   setInv = setInterval(tick, snakeSpeed);
 }
+
+
+
+// TODO
+// Add lose screen
+// add  style
+// add win condition
