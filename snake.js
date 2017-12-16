@@ -252,7 +252,7 @@ function helpersModule(){
   function isArrayIn2dArray(key, array2d){
     return array2d.some((array) => {return (array[0] == key[0] && array[1] == key[1])});
   }
-};
+}
 
 function restart(){
   stopGame();
