@@ -256,6 +256,7 @@ function scoreFactory(initialScore){
 
   function resetScore(){
     score = 0;
+    displayScore();
   }
 }
 
