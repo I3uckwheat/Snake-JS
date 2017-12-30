@@ -4,6 +4,7 @@ const snakeSpeed = 100;
 const snakeLength = 6;
 const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
 
+let score = scoreFactory(0);
 let playArea = playAreaFactory(snakeGridSize);
 let snake = snakeFactory([20,20]);
 let food = foodFactory();
@@ -35,6 +36,17 @@ function stopGame(){
 function fail(){
   stopGame();
   console.log("YOU DIED");
+}
+
+function restart(){
+  stopGame();
+  playArea = playAreaFactory(snakeGridSize);
+  snake = snakeFactory([20,20]);
+  food = foodFactory();
+  playArea.render();
+  score.resetScore();
+
+  setInv = setInterval(tick, snakeSpeed);
 }
 
 function snakeFactory(startPosition){             // [0,0] is top left, [39, 39] is bottom right, [0, 39] is bottom left, [39,0] is top right.  [x,y] starting at top left
@@ -77,6 +89,7 @@ function snakeFactory(startPosition){             // [0,0] is top left, [39, 39]
   function foundFood(){
     food.getsEaten();
     eat();
+    score.updateScore(10 + length);
   }
 
   function eat(){
@@ -219,6 +232,33 @@ function foodFactory(){
   }
 }
 
+function scoreFactory(initialScore){
+  let score = initialScore;
+  const scoreDisplay = document.getElementById("score");
+
+  return {
+    updateScore,
+    resetScore
+  }
+
+  function updateScore(amount){
+    increaseScore(amount);
+    displayScore();
+  }
+
+  function increaseScore(amount){
+    score = score + amount;
+  }
+
+  function displayScore(){
+    scoreDisplay.textContent = "Score: " + score * 10;
+  }
+
+  function resetScore(){
+    score = 0;
+  }
+}
+
 function helpersModule(){
   return {
     isEquivalent,
@@ -247,15 +287,6 @@ function helpersModule(){
   }
 }
 
-function restart(){
-  stopGame();
-  playArea = playAreaFactory(snakeGridSize);
-  snake = snakeFactory([20,20]);
-  food = foodFactory();
-  playArea.render();
-
-  setInv = setInterval(tick, snakeSpeed);
-}
 
 
 
