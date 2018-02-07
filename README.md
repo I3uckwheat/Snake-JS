@@ -7,6 +7,6 @@ I decided to follow the module design pattern as best i could. This code works, 
 and could be refactored to be better, which i plan on doing later, when i have more expereince. 
 
 I am very happy how this turned out, I plan on improving the CSS after going through a course for it. I feel with a little
-refactoring and a facelift wtih CSS, this could be a good portfolio piece.
+refactoring and a facelift wtih CSS, this could be a good portfolio piece. Overall I am happy with the execution, and other people seem to enjoy playing it as much as any other snake game. I have had suggestions to make it work offline locally and to add a difficulty slider.
 
 Play Here: https://i3uckwheat.github.io/Snake-JS/
