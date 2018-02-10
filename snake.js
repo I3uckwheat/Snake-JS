@@ -1,7 +1,7 @@
 const helpers = helpersModule();
 const snakeGridSize = 40;
 const snakeSpeed = 100;
-const snakeLength = 6;
+const snakeLength = 5;
 const keyBinding = {"ArrowUp": "u", "ArrowDown" : 'd', "ArrowLeft" : 'l', "ArrowRight" : 'r'}
 
 let score = scoreFactory(0);
